@@ -13,12 +13,4 @@ namespace Conversion.Transform
             return result;
         }
     }
-
-    public class OutPutRow  
-    {
-        public string BarcodeId { get; set; }
-        public string AnimalId { get; set; }
-        public string SexOfAnimal { get; set; }
-
-    }
 }

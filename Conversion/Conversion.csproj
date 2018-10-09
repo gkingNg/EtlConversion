@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Transform\FileMapper.cs" />
     <Compile Include="Transform\MapDefinition.cs" />
+    <Compile Include="Transform\OutPutRow.cs" />
     <Compile Include="Utils\CustomExtensions.cs" />
     <Compile Include="Optional\DairyFileTemplate.cs" />
     <Compile Include="Extract\FileReader.cs" />
