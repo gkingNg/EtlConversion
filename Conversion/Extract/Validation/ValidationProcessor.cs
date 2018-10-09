@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Conversion.Extract.Validation.Validators;
+using Conversion.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Conversion.Extract.Validation.Validators;
-using Conversion.Utils;
 
 namespace Conversion.Extract.Validation
 {
@@ -13,11 +13,10 @@ namespace Conversion.Extract.Validation
         private readonly IList<ValidatorDef> _validatorDefs;
         private readonly IList<IValidate> _validatorList;
 
-
         public ValidationProcessor(IList<ValidatorDef> validatorDefs)
         {
-            ErrorMessages = new StringBuilder();
             _validatorDefs = validatorDefs;
+            ErrorMessages = new StringBuilder();
             _validatorList = new List<IValidate>();
 
             InitializeValidators();
@@ -50,6 +49,7 @@ namespace Conversion.Extract.Validation
                 if (m == null)
                 {
                     ErrorMessages.AppendLine($"{val.FieldName} does not exist");
+                    isValid = false;
                     continue;
                 }
 
@@ -60,11 +60,10 @@ namespace Conversion.Extract.Validation
                 if (!string.IsNullOrEmpty(val.ErrorMessage)) validator.ValidationError = val.ErrorMessage;
                 if (!string.IsNullOrEmpty(val.CompareList)) validator.CompareList = val.CompareList.Split(',');
 
-                if (!validator.IsValid(value.SafeToString(), val.FieldName))
-                {
-                    ErrorMessages.AppendLine(validator.ValidationError);
-                    isValid = false;
-                }
+                if (validator.IsValid(value.SafeToString(), val.FieldName)) continue;
+
+                ErrorMessages.AppendLine(validator.ValidationError);
+                isValid = false;
             }
 
             return isValid;
