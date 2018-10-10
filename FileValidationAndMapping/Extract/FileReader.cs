@@ -1,10 +1,9 @@
-﻿using System;
+﻿using FileHelpers;
+using FileHelpers.Dynamic;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using FileHelpers;
-using FileHelpers.Dynamic;
 
 namespace FileValidationAndMapping.Extract
 {
@@ -20,6 +19,29 @@ namespace FileValidationAndMapping.Extract
                 throw new FileNotFoundException($"{filePath} does not exists");
             }
 
+            ClassBuilder(ignoreLines, fieldNames, separator);
+
+            var engine = new FileHelperEngine(InputType);
+            var userRecords = engine.ReadFile(filePath);
+
+            return userRecords;
+
+        }
+
+        public IList<object> ReadStream(TextReader fileStream, int ignoreLines, IDictionary<int, string> fieldNames,
+            char[] separator)
+        {
+
+            ClassBuilder(ignoreLines, fieldNames, separator);
+
+            var engine = new FileHelperEngine(InputType);
+            var userRecords = engine.ReadStream(fileStream);
+
+            return userRecords;
+        }
+
+        private void ClassBuilder(int ignoreLines, IDictionary<int, string> fieldNames, char[] separator)
+        {
             var builder = new DelimitedClassBuilder("UserRecord", separator[0].ToString())
             {
                 IgnoreFirstLines = ignoreLines
@@ -32,29 +54,15 @@ namespace FileValidationAndMapping.Extract
             }
 
             InputType = builder.CreateRecordClass();
-
-            var engine = new FileHelperEngine(InputType);
-            var userRecords = engine.ReadFile(filePath);
-
-            foreach (var o in userRecords)
-            {
-                var fields = o.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-
-                foreach (var field in fields)
-                {
-                    var name = field.Name;
-                    var temp = field.GetValue(o);
-
-                    Console.WriteLine($"{name} has a value of {temp}");
-                }
-
-            }
-
-            return userRecords;
-
         }
-
-        public IDictionary<int, string> GetHeaderFieldNames(int lineInFileWithHeaders, string filePath, char[] separator)
+        /// <summary>
+        /// Opens file (filePath) and reads Header line (lineWithHeaders 0 based) and returns list of columns
+        /// </summary>
+        /// <param name="lineWithHeaders">0 based</param>
+        /// <param name="filePath"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
+        public IDictionary<int, string> GetHeaderFieldNamesFromFile(int lineWithHeaders, string filePath, char[] separator)
         {
             if (!File.Exists(filePath))
             {
@@ -64,7 +72,7 @@ namespace FileValidationAndMapping.Extract
             var lines = File.ReadLines(filePath).ToList();
             var result = new Dictionary<int, string>();
 
-            var lineParts = lines[lineInFileWithHeaders].Split(separator).ToList();
+            var lineParts = lines[lineWithHeaders].Split(separator).ToList();
 
             for (int i = 0; i < lineParts.Count; i++)
             {

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using FileValidationAndMapping.Extract;
 using FileValidationAndMapping.Extract.Validation;
 using FileValidationAndMapping.Models;
@@ -18,9 +19,11 @@ namespace Conversion
             var fileReader = new FileReader();
 
             char[] separator = { ',' };
-            var fieldNames = fileReader.GetHeaderFieldNames(0, filePath, separator);
+            var fieldNames = fileReader.GetHeaderFieldNamesFromFile(0, filePath, separator);
 
-            var userRecords = fileReader.ReadFile(filePath, 1, fieldNames, separator);
+            //var userRecords = fileReader.ReadFile(filePath, 1, fieldNames, separator);
+            var stream = File.OpenText(filePath);
+            var userRecords = fileReader.ReadStream(stream, 1, fieldNames, separator);
 
             var validatorDefs = new List<ValidatorDef>
             {

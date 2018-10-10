@@ -21,18 +21,23 @@ namespace FileValidationAndMapping.Extract.Validation
 
             InitializeValidators();
         }
-
+        /// <summary>
+        /// Takes in 2 lists to compare
+        /// </summary>
+        /// <param name="expectedHeaders"></param>
+        /// <param name="actualHeaders"></param>
+        /// <returns>Bool</returns>
         public bool HeaderValidation(IList<string> expectedHeaders, IList<string> actualHeaders)
         {
             bool isValid = true;
 
-           var diffs =  actualHeaders.Except(expectedHeaders).ToList();
+           var diffs = expectedHeaders.Except(actualHeaders).ToList();
 
             if (diffs.Any())
             {
                 isValid = false;
-                ErrorMessages.AppendLine("Missing Columns");
-                ErrorMessages.AppendLine(String.Join(", ",diffs));
+                ErrorMessages.AppendLine("Missing Columns - ");
+                ErrorMessages.AppendLine(string.Join(", ",diffs));
             }
 
             return isValid;
