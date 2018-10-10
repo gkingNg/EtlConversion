@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conversion", "Conversion\Conversion.csproj", "{491E5E85-527B-44EA-AAEE-F9C9E4954796}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileValidationAndMapping", "FileValidationAndMapping\FileValidationAndMapping.csproj", "{036942BE-37A0-4477-9B0B-C52B6A56DD2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{491E5E85-527B-44EA-AAEE-F9C9E4954796}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{491E5E85-527B-44EA-AAEE-F9C9E4954796}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{491E5E85-527B-44EA-AAEE-F9C9E4954796}.Release|Any CPU.Build.0 = Release|Any CPU
+		{036942BE-37A0-4477-9B0B-C52B6A56DD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{036942BE-37A0-4477-9B0B-C52B6A56DD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{036942BE-37A0-4477-9B0B-C52B6A56DD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{036942BE-37A0-4477-9B0B-C52B6A56DD2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

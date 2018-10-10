@@ -1,12 +1,12 @@
-﻿using FileHelpers;
-using FileHelpers.Dynamic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using FileHelpers;
+using FileHelpers.Dynamic;
 
-namespace Conversion.Extract
+namespace FileValidationAndMapping.Extract
 {
     public class FileReader
     {

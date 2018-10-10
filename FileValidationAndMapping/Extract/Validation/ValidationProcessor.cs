@@ -1,12 +1,12 @@
-﻿using Conversion.Extract.Validation.Validators;
-using Conversion.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using FileValidationAndMapping.Extract.Validation.Validators;
+using FileValidationAndMapping.Utils;
 
-namespace Conversion.Extract.Validation
+namespace FileValidationAndMapping.Extract.Validation
 {
     public class ValidationProcessor
     {

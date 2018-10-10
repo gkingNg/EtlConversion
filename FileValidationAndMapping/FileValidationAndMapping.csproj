@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{491E5E85-527B-44EA-AAEE-F9C9E4954796}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Conversion</RootNamespace>
-    <AssemblyName>Conversion</AssemblyName>
+    <ProjectGuid>{036942BE-37A0-4477-9B0B-C52B6A56DD2E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FileValidationAndMapping</RootNamespace>
+    <AssemblyName>FileValidationAndMapping</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -46,30 +44,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Extract\FileReader.cs" />
+    <Compile Include="Extract\Validation\ValidationProcessor.cs" />
+    <Compile Include="Extract\Validation\ValidatorDef.cs" />
+    <Compile Include="Extract\Validation\Validators\DateValidator.cs" />
+    <Compile Include="Extract\Validation\Validators\DefaultValidator.cs" />
+    <Compile Include="Extract\Validation\Validators\GenderValidator.cs" />
+    <Compile Include="Extract\Validation\Validators\IsRequired.cs" />
+    <Compile Include="Extract\Validation\Validators\IValidate.cs" />
+    <Compile Include="Extract\Validation\Validators\NumberRangeValidator.cs" />
+    <Compile Include="Extract\Validation\Validators\NumberValidator.cs" />
+    <Compile Include="Models\DairyFileTemplate.cs" />
+    <Compile Include="Models\OutPutRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transform\FileMapper.cs" />
+    <Compile Include="Transform\MapDefinition.cs" />
+    <Compile Include="Utils\CustomExtensions.cs" />
+    <Compile Include="Utils\Validators.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="bin\Debug\Conversion.exe.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FileValidationAndMapping\FileValidationAndMapping.csproj">
-      <Project>{036942be-37a0-4477-9b0b-c52b6a56dd2e}</Project>
-      <Name>FileValidationAndMapping</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="bin\Debug\Conversion.exe" />
-    <Content Include="bin\Debug\Conversion.pdb" />
-    <Content Include="bin\Debug\FileHelpers.dll" />
-    <Content Include="bin\Debug\FileHelpers.xml" />
-    <Content Include="bin\Debug\FileValidationAndMapping.dll" />
-    <Content Include="bin\Debug\FileValidationAndMapping.pdb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
