@@ -10,9 +10,9 @@ namespace Conversion.Extract.Validation.Validators
             CompareList = new List<string>();
         }
 
-        public bool UseMe(string validatorName)
+        public bool UseMe(Utils.Validators validatorName)
         {
-            return string.Equals("IsRequired", validatorName);
+            return Utils.Validators.IsRequired == validatorName;
         }
 
         public string ValidationError { get; set; }

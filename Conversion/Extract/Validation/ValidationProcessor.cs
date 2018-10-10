@@ -23,18 +23,19 @@ namespace Conversion.Extract.Validation
         }
 
         public StringBuilder ErrorMessages { get; set; }
-        private void InitializeValidators()
-        {
-            var interfaceType = typeof(IValidate);
-            var all = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                .Select(Activator.CreateInstance);
 
-            foreach (var v in all)
+        public bool RunValidatorsForAll(Type myType, IList<object> userObjects)
+        {
+            var isValidList = new List<bool>();
+
+            foreach (var obj in userObjects)
             {
-                _validatorList.Add((IValidate)v);
+                isValidList.Add(RunValidators(myType, obj));
             }
+
+
+            return isValidList.TrueForAll(x => x);
+
         }
 
         public bool RunValidators(Type myType, object test)
@@ -55,7 +56,8 @@ namespace Conversion.Extract.Validation
 
                 var value = m.GetValue(test);
 
-                var validator = _validatorList.FirstOrDefault(x => x.UseMe(val.ValidatorToUse)) ?? new DefaultValidator();
+                var validatorToUse = val.ValidatorToUse.ParseEnum<Utils.Validators>();
+                var validator = _validatorList.FirstOrDefault(x => x.UseMe(validatorToUse)) ?? new DefaultValidator();
 
                 if (!string.IsNullOrEmpty(val.ErrorMessage)) validator.ValidationError = val.ErrorMessage;
                 if (!string.IsNullOrEmpty(val.CompareList)) validator.CompareList = val.CompareList.Split(',');
@@ -67,6 +69,20 @@ namespace Conversion.Extract.Validation
             }
 
             return isValid;
+        }
+
+        private void InitializeValidators()
+        {
+            var interfaceType = typeof(IValidate);
+            var all = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+                .Select(Activator.CreateInstance);
+
+            foreach (var v in all)
+            {
+                _validatorList.Add((IValidate)v);
+            }
         }
     }
 }

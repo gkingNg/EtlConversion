@@ -1,4 +1,6 @@
-﻿namespace Conversion.Utils
+﻿using System;
+
+namespace Conversion.Utils
 {
     public static class CustomExtensions
     {
@@ -11,6 +13,11 @@
         {
             if (value == null) return "";
             return value.ToString();
+        }
+
+        public static T ParseEnum<T>(this string value)
+        {
+            return (T)Enum.Parse(typeof(T), value, true);
         }
     }
 }

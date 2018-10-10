@@ -1,6 +1,6 @@
 ﻿using FileHelpers;
 
-namespace Conversion.Optional
+namespace Conversion.Models
 {
     [DelimitedRecord(",")]
     public class DairyFileTemplate

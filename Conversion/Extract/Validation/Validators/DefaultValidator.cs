@@ -10,7 +10,7 @@ namespace Conversion.Extract.Validation.Validators
             ValidationError = "Requested validator does not exist";
         }
 
-        public bool UseMe(string validatorName)
+        public bool UseMe(Utils.Validators validatorName)
         {
             return false;
         }

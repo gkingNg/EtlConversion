@@ -6,12 +6,12 @@ namespace Conversion.Transform
 {
     public class FileMapper
     {
-        public IList<T> Map<T>(IList<object> inputList, IList<MapDefinition> mapDefinitions, Type userType)
+        public IList<T> MapFields<T>(IList<object> inputList, IList<MapDefinition> mapDefinitions, Type userType)
             where T : new()
         {
-            IList<T> result = new List<T>();
+            var result = new List<T>();
 
-            for (int i = 0; i < inputList.Count; i++)
+            for (var i = 0; i < inputList.Count; i++)
             {
                 var input = inputList[i];
                 var inputFields = userType.GetFields();
@@ -23,7 +23,6 @@ namespace Conversion.Transform
 
                     var outputProp = typeof(T).GetProperties().FirstOrDefault(x => string.Equals(x.Name, def.OutputName, StringComparison.CurrentCultureIgnoreCase));
                     outputProp?.SetValue(output, inputValue);
-
                 }
 
                 result.Add(output);

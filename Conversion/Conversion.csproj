@@ -48,9 +48,9 @@
   <ItemGroup>
     <Compile Include="Transform\FileMapper.cs" />
     <Compile Include="Transform\MapDefinition.cs" />
-    <Compile Include="Transform\OutPutRow.cs" />
+    <Compile Include="Models\OutPutRow.cs" />
     <Compile Include="Utils\CustomExtensions.cs" />
-    <Compile Include="Optional\DairyFileTemplate.cs" />
+    <Compile Include="Models\DairyFileTemplate.cs" />
     <Compile Include="Extract\FileReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,6 +63,7 @@
     <Compile Include="Extract\Validation\Validators\IValidate.cs" />
     <Compile Include="Extract\Validation\Validators\NumberRangeValidator.cs" />
     <Compile Include="Extract\Validation\Validators\NumberValidator.cs" />
+    <Compile Include="Utils\Validators.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

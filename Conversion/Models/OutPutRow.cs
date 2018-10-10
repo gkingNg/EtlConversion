@@ -1,4 +1,4 @@
-﻿namespace Conversion.Transform
+﻿namespace Conversion.Models
 {
     public class OutPutRow  
     {

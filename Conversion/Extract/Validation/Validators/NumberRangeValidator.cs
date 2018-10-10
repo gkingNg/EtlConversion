@@ -12,9 +12,10 @@ namespace Conversion.Extract.Validation.Validators
             CompareList  = new List<string>();
         }
 
-        public bool UseMe(string validatorName)
+        public bool UseMe(Utils.Validators validatorName)
         {
-            return string.Equals("NumberRange", validatorName, StringComparison.CurrentCultureIgnoreCase);
+            return Utils.Validators.NumberRange == validatorName;
+           
         }
 
         public string ValidationError { get; set; }

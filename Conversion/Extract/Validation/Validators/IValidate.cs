@@ -4,7 +4,7 @@ namespace Conversion.Extract.Validation.Validators
 {
     public interface IValidate
     {
-        bool UseMe(string validatorName);
+        bool UseMe(Utils.Validators validatorName);
         string ValidationError { get; set; }
 
         IList<string> CompareList { get; set; }
