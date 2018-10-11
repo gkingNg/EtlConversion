@@ -1,5 +1,6 @@
 ﻿
 
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using GenomicsData.Models;
@@ -8,23 +9,26 @@ namespace GenomicsData
 {
     public class GenomicsRepository
     {
-        public DbContext Context { get; }
+        public DbContext CurrentContext { get; }
 
         public GenomicsRepository()
         {
-            Context = new GenomicsModel();
+            CurrentContext = new GenomicsModel();
+            
         }
 
-        public GenomicsRepository(DbContext context)
+        public GenomicsRepository(DbContext currentContext)
         {
-            Context = context;
+            CurrentContext = currentContext;
         }
 
 
-        public IQueryable<IGEN_CUSTOMER> Customer { get; set; }
+        public IList<IGEN_CUSTOMER> Customer { get; set; }
 
         public IQueryable<IGEN_ORDERSTATUSCODES> OrderStatusCodes { get; set; }
 
         public IQueryable<IGEN_ORDERSTATUS> OrderStatus { get; set; }
+        public IQueryable<IGEN_FIELDVALUES> FieldStatus { get; set; }
+        public IQueryable<IGEN_SAMPLE> Sample { get; set; }
     }
 }

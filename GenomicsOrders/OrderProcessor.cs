@@ -1,12 +1,10 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections;
+﻿using GenomicsData;
+using GenomicsData.Models;
+using GenomicsOrders.Utils;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using GenomicsData;
-using GenomicsData.Models;
-using NLog;
 
 namespace GenomicsOrders
 {
@@ -19,91 +17,128 @@ namespace GenomicsOrders
 
         private readonly ILogger _logger = LogManager.GetLogger("OrderProcessor");
         private IList<IGEN_ORDERSTATUS> _orderStatusRepository;
-        private IList<IGEN_IGENITYORDER> _IntityOrders;
 
         public OrderProcessor()
         {
-            _IntityOrders = new List<IGEN_IGENITYORDER>();
 
-            _orderStatusRepository = new List<IGEN_ORDERSTATUS>();
+            //_orderStatusRepository = new List<IGEN_ORDERSTATUS>();
+            _repository = new GenomicsRepository();
             foreach (var code in _repository.OrderStatusCodes)
             {
-                _orderStatusCodes.Add(code.STATUS,code.ORDERSTATUSCODES_ID);
+                _orderStatusCodes.Add(code.STATUS, code.ORDERSTATUSCODES_ID);
             }
         }
 
-        private int AddGenomicsOrder(NewOrder order, OrderTypeSource orderTypeSource)
+        public void Execute(GenomicsOrder order)
         {
-            _repository = new GenomicsRepository();
-            _logger.Info("Adding Genomics Order for SL Order. Order Number: " + order.OrdNbr);
-            //gak reveiw
-            var customerId = 0;
-            List<IGEN_CUSTOMERBREEDASSOCIATION> customerBreedAssocs = new List<IGEN_CUSTOMERBREEDASSOCIATION>();
-
-            var genomicsCustomer = _repository.Customer.FirstOrDefault(c => c.SHIPTO == order.CustId);
+            var genomicsCustomer = _repository.Customer.FirstOrDefault(c => c.SHIPTO == order.CustId.SafeToString());
             if (genomicsCustomer == null)
             {
                 _logger.Info("SL Customer does not exists. SL Customer number: " + order.CustId);
                 throw new Exception("Customer does not exist in Genomics");
             }
-            else
-            {
-                customerId = genomicsCustomer.CUSTOMER_ID;
-                customerBreedAssocs = genomicsCustomer.IGEN_CUSTOMERBREEDASSOCIATION.ToList();
-            }
+
+            AddGenomicsOrder(order, genomicsCustomer);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="order"></param>
+        /// <param name="orderOrigin">Enum designation origin of order</param>
+        /// <param name="genomicsCustomer"></param>
+        /// <returns></returns>
+        public int AddGenomicsOrder(GenomicsOrder order, IGEN_CUSTOMER genomicsCustomer)
+        {
+            var customerBreedAssocs = genomicsCustomer.IGEN_CUSTOMERBREEDASSOCIATION.ToList();
 
             var partialSamples = MakePartialGenomicsSamples(order, customerBreedAssocs);
 
-
-            var entityOrder = new IGEN_IGENITYORDER
+            var igenityorder = new IGEN_IGENITYORDER
             {
                 LAB_ID = _labId,
-                CUSTOMER_ID = customerId,
+                CUSTOMER_ID = order.CustId,
                 USER_ID = _genomicsUserId,
                 COMPSALESREP_ID = null,
                 DECELERATOR = false,
                 CHECKAMOUNT = null,
                 CHECKNUMBER = null,
                 PRIORITY = 2,
-                ORDERTYPE = $"Commercial {orderTypeSource.ToString()}",
-                //MASTERORDERID = order.OrdNbr, gak Trinia says it's only used when coming from Solomon
+                ORDERTYPE = $"Commercial {order.OrderOrigin.SafeToString()}",
+                //MASTERORDERID = order.OrderNumber, gak Trinia says it's only used when coming from Solomon
                 PAYMENTTYPE = "No Charge",
                 PAYMENTREFERENCE = null,
-                COMMENTS = order.notes,
+                COMMENTS = order.Notes,
                 REDOORDERID = null,
                 EMAILRECEIVED_DATE = null,
-                SEASON_ID = null
+                SEASON_ID = null,
             };
 
-            _IntityOrders.Add(entityOrder);
+            igenityorder.IGEN_CUSTOMER = genomicsCustomer;
 
-            if (!DateTime.TryParse(order.OrdDate, out var orderDate))
-                orderDate = DateTime.Today;
 
-            AddOrderStatus(entityOrder, "Order Received", orderDate);
+            if (!order.OrderDate.HasValue) order.OrderDate = DateTime.Now;
+
+            AddOrderStatus(igenityorder, "Order Received", order.OrderDate.Value);
 
             foreach (var partialSample in partialSamples)
             {
-                AddGenomicsSample(entityOrder, partialSample);
+                AddGenomicsSampleToOrder(igenityorder, partialSample);
             }
 
-            AddOrderStatus(entityOrder, "Order Entered", orderDate);
+            AddOrderStatus(igenityorder, "Order Entered", order.OrderDate.Value);
 
-            _repository.Context.SaveChanges();
+            _repository.CurrentContext.Set<IGEN_IGENITYORDER>().Add(igenityorder);
+            _repository.CurrentContext.SaveChanges();
 
-            _logger.Info($"Genomics Order added for SL Order. SL Order number: {order.OrdNbr}. Genomics Order Id: {entityOrder.IGENITYORDER_ID}");
+            _logger.Info(
+                $"Genomics Order added  Genomics Order Id: {igenityorder.IGENITYORDER_ID}");
 
-            return entityOrder.IGENITYORDER_ID;
+            return igenityorder.IGENITYORDER_ID;
         }
 
-        private void AddGenomicsSample(IGEN_IGENITYORDER entityOrder, object partialSample)
+        private void AddGenomicsSampleToOrder(IGEN_IGENITYORDER entityOrder, IgenTransientSample partialSample)
         {
-            throw new NotImplementedException();
+            partialSample.Animal.CUSTOMER_ID = entityOrder.CUSTOMER_ID;
+            if (partialSample.AnimalBreedAssociation != null)
+            {
+                _repository.CurrentContext.Set<IGEN_ANIMALBREEDASSOCIATION>().Add(partialSample.AnimalBreedAssociation);
+                partialSample.Animal.IGEN_ANIMALBREEDASSOCIATION = new List<IGEN_ANIMALBREEDASSOCIATION>
+                    {partialSample.AnimalBreedAssociation};
+            }
+
+            _repository.CurrentContext.Set<IGEN_ANIMAL>().Add(partialSample.Animal);
+
+            partialSample.Sample.IGEN_IGENITYORDER = entityOrder;
+            partialSample.Sample.IGEN_ANIMAL = partialSample.Animal;
+
+            if (partialSample.Sire != null)
+            {
+                _repository.CurrentContext.Set<IGEN_POTENTIALSIRE>().Add(partialSample.Sire);
+                partialSample.Sample.IGEN_POTENTIALSIRE = new List<IGEN_POTENTIALSIRE> {partialSample.Sire};
+            }
+
+            if (partialSample.Dam != null)
+            {
+                _repository.CurrentContext.Set<IGEN_POTENTIALDAM>().Add(partialSample.Dam);
+                partialSample.Sample.IGEN_POTENTIALDAM = new List<IGEN_POTENTIALDAM> {partialSample.Dam};
+            }
+
+            var dbSample = _repository.Sample.FirstOrDefault(s => s.BARCODEID == partialSample.Sample.BARCODEID);
+            if (dbSample != null)
+                partialSample.Sample.REFBARCODEID = dbSample.REFBARCODEID;
+
+            _repository.CurrentContext.Set<IGEN_SAMPLE>().Add(partialSample.Sample);
+
+            //gak determine relationship between product and sample, product and ScientificTest
+            //partialSample.Sample.IGEN_PRODUCT = partialSample.Products;
+
+            //partialSample.Sample.IGEN_SCIENTIFICTEST = partialSample.Tests;
         }
 
         private void AddOrderStatus(IGEN_IGENITYORDER order, string status, DateTime date)
         {
-            _orderStatusRepository.Add(new IGEN_ORDERSTATUS
+            order.IGEN_ORDERSTATUS.Add(new IGEN_ORDERSTATUS
             {
                 IGEN_IGENITYORDER = order,
                 ORDERSTATUSCODES_ID = _orderStatusCodes[status],
@@ -111,10 +146,84 @@ namespace GenomicsOrders
             });
         }
 
-        private IEnumerable MakePartialGenomicsSamples(NewOrder order, List<IGEN_CUSTOMERBREEDASSOCIATION> customerBreedAssocs)
+        private List<IgenTransientSample> MakePartialGenomicsSamples(GenomicsOrder genOrder,
+            List<IGEN_CUSTOMERBREEDASSOCIATION> customerBreedAssocs)
         {
-            throw new NotImplementedException();
+
+
+            var partialSamples = new Dictionary<string, IgenTransientSample>();
+            foreach (var genOrderProduct in genOrder.Products)
+            {
+
+
+                foreach (var genSample in genOrderProduct.Samples)
+                {
+                    var sample = new IGEN_SAMPLE();
+                    sample.ISVALID = true;
+
+                    var sire = new IGEN_POTENTIALSIRE();
+                    var dam = new IGEN_POTENTIALDAM();
+                    var animal = new IGEN_ANIMAL();
+                    //var animalBreedAssoc = new IGEN_ANIMALBREEDASSOCIATION();
+                    //var fieldValues = new IGEN_FIELDVALUES();
+
+                    sample.BARCODEID = genSample.BarcodeID;
+                    //TODO: ref barcode id logic?
+                    sample.REFBARCODEID = genSample.BarcodeID;
+                    sample.SUBSTRATE = genSample.Substrate;
+                    sample.CASENUM = genSample.CaseNumber;
+                    sample.COMMENTS = genSample.Comments;
+                    sample.BATCHNUMBER = genSample.BatchNumber.SafeInt();
+
+                    sire.BREED1 = genSample.SireID;
+                    sire.BREEDASSOCIATIONID = genSample.SireRegistrationNumber;
+
+                    dam.BREED1 = genSample.DamID;
+                    dam.BREEDASSOCIATIONID = genSample.DamRegistrationNumber;
+
+                    animal.ANIMAL_ID = genSample.AnimalID;
+                    animal.BREEDASSOCIATIONID = genSample.BreedingAssociationCodeId;
+
+                    var custBreedAssoc = customerBreedAssocs.FirstOrDefault(f =>
+                        f.BREEDASSOCIATIONCODE == genSample.BreedingAssociationCode);
+                    if (custBreedAssoc != null)
+                    {
+                        custBreedAssoc.MEMBERNUMBER = custBreedAssoc.MEMBERNUMBER;
+                    }
+
+                    animal.ELECTRONICID = genSample.ElectronicID;
+                    animal.SEX = genSample.SexofAnimal.FixSexValue();
+                    animal.BREED1 = genSample.Breed1;
+                    animal.BREED2 = genSample.Breed2;
+                    animal.SIREGROUP = genSample.SireGroup;
+                    animal.BIRTHDATE = genSample.BirthDate;
+                    animal.ANIMALID2 = genSample.AnimalID2;
+                    animal.BIRTHSTATUS = GetBirthStatus(genSample);
+
+
+
+                }
+            }
+
+
+            return partialSamples.Values.ToList();
         }
 
+        private int? GetBirthStatus(GenomicsSamples genSample)
+        {
+            var fieldStatus = _repository.FieldStatus.FirstOrDefault(x => x.FIELDVALUE == genSample.BirthStatus);
+            return fieldStatus?.ID;
+        }
+
+        private class IgenTransientSample
+        {
+            public IGEN_SAMPLE Sample;
+            public IGEN_ANIMAL Animal;
+            public IGEN_POTENTIALSIRE Sire;
+            public IGEN_POTENTIALDAM Dam;
+            public IGEN_ANIMALBREEDASSOCIATION AnimalBreedAssociation;
+            public List<IGEN_PRODUCT> Products;
+            public List<IGEN_SCIENTIFICTEST> Tests;
+        }
     }
 }

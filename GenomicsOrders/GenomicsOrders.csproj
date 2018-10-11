@@ -52,12 +52,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NewOrder.cs" />
+    <Compile Include="OrderModel\GenomicsProducts.cs" />
+    <Compile Include="OrderModel\GenomicsSamples.cs" />
+    <Compile Include="Utils\CustomExtensions.cs" />
+    <Compile Include="OrderModel\GenomicsOrder.cs" />
     <Compile Include="OrderProcessor.cs" />
-    <Compile Include="OrderTypeSource.cs" />
+    <Compile Include="Utils\OrderOrigin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Conversion\Conversion.csproj">
+      <Project>{491e5e85-527b-44ea-aaee-f9c9e4954796}</Project>
+      <Name>Conversion</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GenomicsData\GenomicsData.csproj">
       <Project>{a73ddaec-2498-4f1f-be15-ceca296519a0}</Project>
       <Name>GenomicsData</Name>
