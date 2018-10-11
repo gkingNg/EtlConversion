@@ -1,5 +1,6 @@
 ﻿using GenomicsData;
 using GenomicsData.Models;
+using GenomicsOrders.OrderModel;
 using GenomicsOrders.Utils;
 using NLog;
 using System;
@@ -23,7 +24,8 @@ namespace GenomicsOrders
 
             //_orderStatusRepository = new List<IGEN_ORDERSTATUS>();
             _repository = new GenomicsRepository();
-            foreach (var code in _repository.OrderStatusCodes)
+
+            foreach (IGEN_ORDERSTATUSCODES code in _repository.CurrentContext.Set<IGEN_ORDERSTATUSCODES>())
             {
                 _orderStatusCodes.Add(code.STATUS, code.ORDERSTATUSCODES_ID);
             }
@@ -89,7 +91,8 @@ namespace GenomicsOrders
             AddOrderStatus(igenityorder, "Order Entered", order.OrderDate.Value);
 
             _repository.CurrentContext.Set<IGEN_IGENITYORDER>().Add(igenityorder);
-            _repository.CurrentContext.SaveChanges();
+
+            _repository.SaveChanges();
 
             _logger.Info(
                 $"Genomics Order added  Genomics Order Id: {igenityorder.IGENITYORDER_ID}");
@@ -115,13 +118,13 @@ namespace GenomicsOrders
             if (partialSample.Sire != null)
             {
                 _repository.CurrentContext.Set<IGEN_POTENTIALSIRE>().Add(partialSample.Sire);
-                partialSample.Sample.IGEN_POTENTIALSIRE = new List<IGEN_POTENTIALSIRE> {partialSample.Sire};
+                partialSample.Sample.IGEN_POTENTIALSIRE = new List<IGEN_POTENTIALSIRE> { partialSample.Sire };
             }
 
             if (partialSample.Dam != null)
             {
                 _repository.CurrentContext.Set<IGEN_POTENTIALDAM>().Add(partialSample.Dam);
-                partialSample.Sample.IGEN_POTENTIALDAM = new List<IGEN_POTENTIALDAM> {partialSample.Dam};
+                partialSample.Sample.IGEN_POTENTIALDAM = new List<IGEN_POTENTIALDAM> { partialSample.Dam };
             }
 
             var dbSample = _repository.Sample.FirstOrDefault(s => s.BARCODEID == partialSample.Sample.BARCODEID);
@@ -130,8 +133,15 @@ namespace GenomicsOrders
 
             _repository.CurrentContext.Set<IGEN_SAMPLE>().Add(partialSample.Sample);
 
-            //gak determine relationship between product and sample, product and ScientificTest
-            //partialSample.Sample.IGEN_PRODUCT = partialSample.Products;
+            foreach (var product in partialSample.Products)
+            {
+                _repository.CurrentContext.Set<IGEN_SAMPLEPRODUCTMAP>().Add(new IGEN_SAMPLEPRODUCTMAP()
+                {
+                    dLastDWUpdate = DateTime.Now,
+                    IGEN_SAMPLE = partialSample.Sample,
+                    IGEN_PRODUCT = product
+                });
+            }
 
             //partialSample.Sample.IGEN_SCIENTIFICTEST = partialSample.Tests;
         }
@@ -167,21 +177,21 @@ namespace GenomicsOrders
                     //var animalBreedAssoc = new IGEN_ANIMALBREEDASSOCIATION();
                     //var fieldValues = new IGEN_FIELDVALUES();
 
-                    sample.BARCODEID = genSample.BarcodeID;
+                    sample.BARCODEID = genSample.BarcodeId;
                     //TODO: ref barcode id logic?
-                    sample.REFBARCODEID = genSample.BarcodeID;
+                    sample.REFBARCODEID = genSample.BarcodeId;
                     sample.SUBSTRATE = genSample.Substrate;
                     sample.CASENUM = genSample.CaseNumber;
                     sample.COMMENTS = genSample.Comments;
                     sample.BATCHNUMBER = genSample.BatchNumber.SafeInt();
 
-                    sire.BREED1 = genSample.SireID;
+                    sire.BREED1 = genSample.SireId;
                     sire.BREEDASSOCIATIONID = genSample.SireRegistrationNumber;
 
-                    dam.BREED1 = genSample.DamID;
+                    dam.BREED1 = genSample.DamId;
                     dam.BREEDASSOCIATIONID = genSample.DamRegistrationNumber;
 
-                    animal.ANIMAL_ID = genSample.AnimalID;
+                    animal.ANIMAL_ID = genSample.AnimalId;
                     animal.BREEDASSOCIATIONID = genSample.BreedingAssociationCodeId;
 
                     var custBreedAssoc = customerBreedAssocs.FirstOrDefault(f =>
@@ -191,13 +201,13 @@ namespace GenomicsOrders
                         custBreedAssoc.MEMBERNUMBER = custBreedAssoc.MEMBERNUMBER;
                     }
 
-                    animal.ELECTRONICID = genSample.ElectronicID;
+                    animal.ELECTRONICID = genSample.ElectronicId;
                     animal.SEX = genSample.SexofAnimal.FixSexValue();
                     animal.BREED1 = genSample.Breed1;
                     animal.BREED2 = genSample.Breed2;
                     animal.SIREGROUP = genSample.SireGroup;
                     animal.BIRTHDATE = genSample.BirthDate;
-                    animal.ANIMALID2 = genSample.AnimalID2;
+                    animal.ANIMALID2 = genSample.AnimalId2;
                     animal.BIRTHSTATUS = GetBirthStatus(genSample);
 
 

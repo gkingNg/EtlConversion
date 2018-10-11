@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenomicsRepository.cs" />
-    <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\C_IgenityTest___dbo___IGEN_CONFLICTCODE_.cs" />
     <Compile Include="Models\C_IgenityTest___dbo___IGEN_CONFLICTCODE_Old_.cs" />
     <Compile Include="Models\GenomicsModel.cs" />
@@ -199,6 +198,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Models\packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

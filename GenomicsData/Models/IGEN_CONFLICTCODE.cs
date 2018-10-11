@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenomicsData.Models
 {
-    public partial class IGEN_CONFLICTCODE
+    public partial class IGEN_CONFLICTCODEX
     {
         [Key]
         [Column(Order = 0)]

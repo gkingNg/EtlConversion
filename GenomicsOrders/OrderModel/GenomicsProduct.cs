@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 
-namespace GenomicsOrders
+namespace GenomicsOrders.OrderModel
 {
-    public class GenomicsProducts
+    public class GenomicsProduct
     {
-        public GenomicsProducts()
+        public GenomicsProduct()
         {
             Samples = new List<GenomicsSamples>();
         }
 
         public int GenomicsProductId { get; set; }
 
-        public IList<GenomicsSamples> Samples { get; set; }
+        public List<GenomicsSamples> Samples { get; set; }
     }
 }

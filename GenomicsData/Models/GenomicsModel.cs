@@ -109,11 +109,10 @@ namespace GenomicsData.Models
         public virtual DbSet<Igen_TransferProduct> Igen_TransferProduct { get; set; }
         public virtual DbSet<IGEN_USER> IGEN_USER { get; set; }
         public virtual DbSet<TraitMarketingTest> TraitMarketingTests { get; set; }
-        public virtual DbSet<C_IgenityTest___dbo___IGEN_CONFLICTCODE_> C_IgenityTest___dbo___IGEN_CONFLICTCODE_ { get; set; }
         public virtual DbSet<IGEN_breed> IGEN_breed { get; set; }
         public virtual DbSet<IGEN_CONFIG> IGEN_CONFIG { get; set; }
         public virtual DbSet<igen_config_dup> igen_config_dup { get; set; }
-        public virtual DbSet<IGEN_CONFLICTCODE> IGEN_CONFLICTCODE { get; set; }
+        //public virtual DbSet<IGEN_CONFLICTCODE> IGEN_CONFLICTCODE { get; set; }
         public virtual DbSet<IGEN_CONFLICTCODE_06182018> IGEN_CONFLICTCODE_06182018 { get; set; }
         public virtual DbSet<IGEN_COUNTYREPTABLE> IGEN_COUNTYREPTABLE { get; set; }
         public virtual DbSet<IGEN_CUSTOMERGOALWEIGHT> IGEN_CUSTOMERGOALWEIGHT { get; set; }
@@ -1990,37 +1989,37 @@ namespace GenomicsData.Models
                 .Property(e => e.TraitName)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
-                .Property(e => e.Code)
-                .IsUnicode(false);
+            //modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
+            //    .Property(e => e.Code)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
-                .Property(e => e.Description)
-                .IsUnicode(false);
+            //modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
+            //    .Property(e => e.Description)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
-                .Property(e => e.Meaning)
-                .IsUnicode(false);
+            //modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
+            //    .Property(e => e.Meaning)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
-                .Property(e => e.Correction)
-                .IsUnicode(false);
+            //modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
+            //    .Property(e => e.Correction)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
-                .Property(e => e.GeneseekResponse)
-                .IsUnicode(false);
+            //modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
+            //    .Property(e => e.GeneseekResponse)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
-                .Property(e => e.CustomerActionUSBreed)
-                .IsUnicode(false);
+            //modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
+            //    .Property(e => e.CustomerActionUSBreed)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
-                .Property(e => e.CustomerActionNonUSBreed)
-                .IsUnicode(false);
+            //modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
+            //    .Property(e => e.CustomerActionNonUSBreed)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
-                .Property(e => e.CustomerAction)
-                .IsUnicode(false);
+            //modelBuilder.Entity<C_IgenityTest___dbo___IGEN_CONFLICTCODE_>()
+            //    .Property(e => e.CustomerAction)
+            //    .IsUnicode(false);
 
             modelBuilder.Entity<IGEN_breed>()
                 .Property(e => e.BREED)
@@ -2074,37 +2073,37 @@ namespace GenomicsData.Models
                 .Property(e => e.DESCRIPTION)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<IGEN_CONFLICTCODE>()
-                .Property(e => e.Code)
-                .IsUnicode(false);
+            //modelBuilder.Entity<IGEN_CONFLICTCODE>()
+            //    .Property(e => e.Code)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<IGEN_CONFLICTCODE>()
-                .Property(e => e.Description)
-                .IsUnicode(false);
+            //modelBuilder.Entity<IGEN_CONFLICTCODE>()
+            //    .Property(e => e.Description)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<IGEN_CONFLICTCODE>()
-                .Property(e => e.Meaning)
-                .IsUnicode(false);
+            //modelBuilder.Entity<IGEN_CONFLICTCODE>()
+            //    .Property(e => e.Meaning)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<IGEN_CONFLICTCODE>()
-                .Property(e => e.Correction)
-                .IsUnicode(false);
+            //modelBuilder.Entity<IGEN_CONFLICTCODE>()
+            //    .Property(e => e.Correction)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<IGEN_CONFLICTCODE>()
-                .Property(e => e.GeneseekResponse)
-                .IsUnicode(false);
+            //modelBuilder.Entity<IGEN_CONFLICTCODE>()
+            //    .Property(e => e.GeneseekResponse)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<IGEN_CONFLICTCODE>()
-                .Property(e => e.CustomerActionUSBreed)
-                .IsUnicode(false);
+            //modelBuilder.Entity<IGEN_CONFLICTCODE>()
+            //    .Property(e => e.CustomerActionUSBreed)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<IGEN_CONFLICTCODE>()
-                .Property(e => e.CustomerActionNonUSBreed)
-                .IsUnicode(false);
+            //modelBuilder.Entity<IGEN_CONFLICTCODE>()
+            //    .Property(e => e.CustomerActionNonUSBreed)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<IGEN_CONFLICTCODE>()
-                .Property(e => e.CustomerAction)
-                .IsUnicode(false);
+            //modelBuilder.Entity<IGEN_CONFLICTCODE>()
+            //    .Property(e => e.CustomerAction)
+            //    .IsUnicode(false);
 
             modelBuilder.Entity<IGEN_CONFLICTCODE_06182018>()
                 .Property(e => e.Code)

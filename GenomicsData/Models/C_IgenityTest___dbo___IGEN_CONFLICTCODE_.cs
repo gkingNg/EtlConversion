@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace GenomicsData.Models
 {
     [Table("[[IgenityTest].[dbo].[IGEN_CONFLICTCODE]]")]
-    public partial class C_IgenityTest___dbo___IGEN_CONFLICTCODE_
+    public partial class C_IgenityTest___dbo___IGEN_CONFLICTCODEx_
     {
         [Key]
         [Column(Order = 0)]
