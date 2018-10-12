@@ -69,6 +69,10 @@
       <Project>{491e5e85-527b-44ea-aaee-f9c9e4954796}</Project>
       <Name>Conversion</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GenomicsData\GenomicsData.csproj">
+      <Project>{12ca1ff9-8d0d-403f-9197-ecdde889d128}</Project>
+      <Name>GenomicsData</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

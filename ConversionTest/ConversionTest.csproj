@@ -71,6 +71,10 @@
       <Project>{036942be-37a0-4477-9b0b-c52b6a56dd2e}</Project>
       <Name>FileValidationAndMapping</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GenomicsData\GenomicsData.csproj">
+      <Project>{12ca1ff9-8d0d-403f-9197-ecdde889d128}</Project>
+      <Name>GenomicsData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GenomicsOrders\GenomicsOrders.csproj">
       <Project>{3091eaf2-89cd-4e4e-8732-bd077367b204}</Project>
       <Name>GenomicsOrders</Name>

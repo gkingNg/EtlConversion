@@ -1,5 +1,8 @@
 ﻿using System;
-using GenomicsData.Models;
+using System.Data.Entity;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using GenomicsData.Model;
 using GenomicsOrders;
 using GenomicsOrders.OrderModel;
 using GenomicsOrders.Utils;
@@ -15,7 +18,7 @@ namespace ConversionTest
         {
             var orderProc = new OrderProcessor();
 
-            var product  = new GenomicsProduct()
+            var product = new GenomicsProduct()
             {
                 GenomicsProductId = 266
             };
@@ -26,22 +29,26 @@ namespace ConversionTest
                 AnimalId2 = "2",
                 BarcodeId = "abc123",
                 BatchNumber = "batch",
-                BirthDate = new DateTime?(new DateTime(2018,4,1))
+                BirthStatus = "TWIN",
+                BirthDate = new DateTime?(new DateTime(2018, 4, 1))
 
             });
 
             var genomicsOrder = new GenomicsOrder()
             {
-                CustId = 6227,
+                CustId = 500005,
                 Notes = "This is a test note",
-                OrderDate = new DateTime(2018,4,1),
+                OrderDate = new DateTime(2018, 4, 1),
                 OrderNumber = "1234",
+                UserId = 229,
+                OrderOrigin = OrderOrigin.Dairy,
+                LabId = 3
             };
 
 
             genomicsOrder.Products.Add(product);
 
-            orderProc.AddGenomicsOrder(genomicsOrder,new IGEN_CUSTOMER());
+            orderProc.AddGenomicsOrder(genomicsOrder);
 
 
         }
@@ -50,6 +57,34 @@ namespace ConversionTest
         public void OrderProcessorTest_NoCustomer()
         {
 
+        }
+
+        [TestMethod]
+        public void ThisIsATestTest_GetAll()
+        {
+            GenomicsModel uow = new GenomicsModel();
+            var repo = new GenomicsData.Repositories.AnimalRepository(uow);
+
+            var animals = repo.GetAll().First();
+        }
+
+        [TestMethod]
+        public void ThisIsATestTest_FindBy()
+        {
+            GenomicsModel uow = new GenomicsModel();
+            var repo = new GenomicsData.Repositories.AnimalRepository(uow);
+
+            var animal = repo.FindBy(x => x.ANIMALID == "CLKG025M25S");
+           Assert.AreEqual(179471, animal.First().ANIMAL_ID);
+
+        }
+
+        [TestMethod]
+        public void OrderOriginTest_()
+        {
+            var origin = OrderOrigin.Beef;
+            var result = origin.ToString();
+            Assert.AreEqual("Beef",result);
         }
     }
 }

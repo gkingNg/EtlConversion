@@ -17,5 +17,7 @@ namespace GenomicsOrders.OrderModel
         public DateTime? OrderDate { get; set; }
         public OrderOrigin OrderOrigin { get; set; }
         public List<GenomicsProduct> Products { get; set; }
+        public int UserId { get; set; }
+        public int LabId { get; set; }
     }
 }
