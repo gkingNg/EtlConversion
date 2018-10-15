@@ -6,7 +6,7 @@ namespace GenomicsData.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class IGEN_ERPPRODUCT
+    public partial class IGEN_ERPPRODUCT : BaseIgenEntity
     {
         [Key]
         [Column(Order = 0)]
@@ -22,7 +22,6 @@ namespace GenomicsData.Model
         [StringLength(40)]
         public string ERPPRODUCTID { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         public virtual IGEN_PRODUCT IGEN_PRODUCT { get; set; }
     }

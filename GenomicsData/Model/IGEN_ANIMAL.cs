@@ -6,7 +6,7 @@ namespace GenomicsData.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class IGEN_ANIMAL
+    public partial class IGEN_ANIMAL : BaseIgenEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IGEN_ANIMAL()
@@ -54,7 +54,6 @@ namespace GenomicsData.Model
 
         public int? BIRTHSTATUS { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         public virtual IGEN_FIELDVALUES IGEN_FIELDVALUES { get; set; }
 

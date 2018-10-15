@@ -6,7 +6,7 @@ namespace GenomicsData.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class IGEN_FIELDVALUES
+    public partial class IGEN_FIELDVALUES : BaseIgenEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IGEN_FIELDVALUES()
@@ -34,7 +34,6 @@ namespace GenomicsData.Model
         [StringLength(50)]
         public string PARENTFIELD { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IGEN_ANIMAL> IGEN_ANIMAL { get; set; }

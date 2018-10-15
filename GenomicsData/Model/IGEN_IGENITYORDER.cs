@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenomicsData.Model
 {
-    public partial class IGEN_IGENITYORDER
+    public partial class IGEN_IGENITYORDER : BaseIgenEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IGEN_IGENITYORDER()
@@ -58,9 +58,7 @@ namespace GenomicsData.Model
 
         public int? SEASON_ID { get; set; }
 
-        public int? LAB_ORDERID { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
 
         public virtual IGEN_CUSTOMER IGEN_CUSTOMER { get; set; }

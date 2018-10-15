@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="GenomicRepository.cs" />
     <Compile Include="IGenericRepository.cs" />
+    <Compile Include="Model\BaseIgenEntity.cs" />
     <Compile Include="Model\GenomicsModel.cs" />
     <Compile Include="Model\IGEN_ANIMAL.cs" />
     <Compile Include="Model\IGEN_ANIMALBREEDASSOCIATION.cs" />

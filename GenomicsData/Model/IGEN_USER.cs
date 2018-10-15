@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GenomicsData.Model
 {
-    public partial class IGEN_USER
+    public partial class IGEN_USER : BaseIgenEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IGEN_USER()
@@ -44,7 +44,6 @@ namespace GenomicsData.Model
 
         public int? LAB_ID { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
  [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IGEN_IGENITYORDER> IGEN_IGENITYORDER { get; set; }

@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GenomicsData.Model
 {
-    public class IGEN_SAMPLE
+    public class IGEN_SAMPLE : BaseIgenEntity
     {
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IGEN_SAMPLE()
@@ -47,7 +47,6 @@ namespace GenomicsData.Model
 
         [StringLength(10)] public string SL_ORIGINALSAMPLE_ID { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         [StringLength(100)] public string LIMS_sMemberCode { get; set; }
 

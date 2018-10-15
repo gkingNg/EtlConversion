@@ -6,7 +6,7 @@ namespace GenomicsData.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class IGEN_CUSTOMER
+    public partial class IGEN_CUSTOMER : BaseIgenEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IGEN_CUSTOMER()
@@ -102,7 +102,6 @@ namespace GenomicsData.Model
 
         public bool ISSIGNATURE { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IGEN_ANIMAL> IGEN_ANIMAL { get; set; }

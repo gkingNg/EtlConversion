@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GenomicsData.Model
 {
-    public partial class IGEN_PRODUCT
+    public partial class IGEN_PRODUCT : BaseIgenEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IGEN_PRODUCT()
@@ -26,7 +26,6 @@ namespace GenomicsData.Model
 
         public int? SCIENTIFICTEST_ID { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         public int? LIMS_iProductID { get; set; }
 

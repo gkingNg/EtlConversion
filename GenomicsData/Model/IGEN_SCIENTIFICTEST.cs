@@ -6,7 +6,7 @@ namespace GenomicsData.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class IGEN_SCIENTIFICTEST
+    public partial class IGEN_SCIENTIFICTEST : BaseIgenEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IGEN_SCIENTIFICTEST()
@@ -41,7 +41,6 @@ namespace GenomicsData.Model
 
         public int? PRIORITY { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IGEN_PRODUCT> IGEN_PRODUCT { get; set; }

@@ -6,7 +6,7 @@ namespace GenomicsData.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class IGEN_ANIMALBREEDASSOCIATION
+    public partial class IGEN_ANIMALBREEDASSOCIATION : BaseIgenEntity
     {
         [Key]
         [Column(Order = 0)]
@@ -26,7 +26,6 @@ namespace GenomicsData.Model
 
         public int? CUSTOMERBREEDASSOC_ID { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         public virtual IGEN_ANIMAL IGEN_ANIMAL { get; set; }
     }

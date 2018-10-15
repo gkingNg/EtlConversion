@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GenomicsData.Model
 {
-    public partial class IGEN_CUSTOMERBREEDASSOCIATION
+    public partial class IGEN_CUSTOMERBREEDASSOCIATION : BaseIgenEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IGEN_CUSTOMERBREEDASSOCIATION()
@@ -24,7 +24,6 @@ namespace GenomicsData.Model
         [StringLength(40)]
         public string MEMBERNUMBER { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IGEN_ANIMALBREEDASSOCIATION> IGEN_ANIMALBREEDASSOCIATION { get; set; }

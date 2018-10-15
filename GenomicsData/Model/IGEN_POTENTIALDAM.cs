@@ -6,7 +6,7 @@ namespace GenomicsData.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class IGEN_POTENTIALDAM
+    public partial class IGEN_POTENTIALDAM : BaseIgenEntity
     {
         [Key]
         public int POTENTIALDAM_ID { get; set; }
@@ -53,7 +53,6 @@ namespace GenomicsData.Model
         [StringLength(25)]
         public string PARENTAGEOPTION { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         public virtual IGEN_SAMPLE IGEN_SAMPLE { get; set; }
 

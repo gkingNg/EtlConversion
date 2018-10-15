@@ -126,7 +126,7 @@ namespace GenomicsOrders
             });
         }
 
-        private List<IGEN_SAMPLE> MakeGenomicsSamples(GenomicsOrder genOrder, IGEN_CUSTOMER genomicsCustomer)
+        private IList<IGEN_SAMPLE> MakeGenomicsSamples(GenomicsOrder genOrder, IGEN_CUSTOMER genomicsCustomer)
         {
             IList<IGEN_SAMPLE> samples = new List<IGEN_SAMPLE>();
 

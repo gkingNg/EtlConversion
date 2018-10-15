@@ -6,7 +6,7 @@ namespace GenomicsData.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class IGEN_ORDERSTATUS
+    public partial class IGEN_ORDERSTATUS : BaseIgenEntity
     {
         [Key]
         [Column(Order = 0)]
@@ -22,7 +22,6 @@ namespace GenomicsData.Model
         [Column(Order = 2, TypeName = "datetime2")]
         public DateTime STATUSDATE { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         public virtual IGEN_IGENITYORDER IGEN_IGENITYORDER { get; set; }
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GenomicsData.Model
 {
-    public partial class IGEN_LAB
+    public partial class IGEN_LAB : BaseIgenEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IGEN_LAB()
@@ -27,7 +27,6 @@ namespace GenomicsData.Model
         [StringLength(4000)]
         public string COMMENTS { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

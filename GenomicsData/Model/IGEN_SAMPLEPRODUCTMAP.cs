@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenomicsData.Model
 {
-    public partial class IGEN_SAMPLEPRODUCTMAP
+    public partial class IGEN_SAMPLEPRODUCTMAP : BaseIgenEntity
     {
         [Key]
         [Column(Order = 0)]
@@ -18,7 +18,6 @@ namespace GenomicsData.Model
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int SAMPLE_ID { get; set; }
 
-        public DateTime dLastDWUpdate { get; set; } = DateTime.Now;
 
         public virtual IGEN_PRODUCT IGEN_PRODUCT { get; set; }
 
