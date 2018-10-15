@@ -1,17 +1,18 @@
-﻿using Conversion.Extract.Validation.Validators;
-using Conversion.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using FileValidationAndMapping.Utils;
+using FileValidationAndMapping.Validation.Validators;
 
-namespace Conversion.Extract.Validation
+namespace FileValidationAndMapping.Validation
 {
     public class ValidationProcessor
     {
         private readonly IList<ValidatorDef> _validatorDefs;
         private readonly IList<IValidate> _validatorList;
+        private int _lineNumber = 0;
 
         public ValidationProcessor(IList<ValidatorDef> validatorDefs)
         {
@@ -21,18 +22,23 @@ namespace Conversion.Extract.Validation
 
             InitializeValidators();
         }
-
+        /// <summary>
+        /// Takes in 2 lists to compare
+        /// </summary>
+        /// <param name="expectedHeaders"></param>
+        /// <param name="actualHeaders"></param>
+        /// <returns>Bool</returns>
         public bool HeaderValidation(IList<string> expectedHeaders, IList<string> actualHeaders)
         {
             bool isValid = true;
 
-           var diffs =  actualHeaders.Except(expectedHeaders).ToList();
+           var diffs = expectedHeaders.Except(actualHeaders).ToList();
 
             if (diffs.Any())
             {
                 isValid = false;
-                ErrorMessages.AppendLine("Missing Columns");
-                ErrorMessages.AppendLine(String.Join(", ",diffs));
+                ErrorMessages.AppendLine("Missing Columns - ");
+                ErrorMessages.AppendLine(string.Join(", ",diffs));
             }
 
             return isValid;
@@ -47,9 +53,9 @@ namespace Conversion.Extract.Validation
         /// <param name="myType">Type of input object</param>
         /// <param name="userObjects">Single object to be validated</param>
         /// <returns></returns>
-        public bool RunValidatorsForAll(Type myType, IList<object> userObjects)
+        public bool RunValidatorsForAllObjects(Type myType, IList<object> userObjects)
         {
-            var isValidList = userObjects.Select(obj => RunValidators(myType, obj)).ToList();
+            var isValidList = userObjects.Select(obj => RunValidatorsForSingleObject(myType, obj)).ToList();
 
             return isValidList.TrueForAll(x => x);
 
@@ -60,12 +66,17 @@ namespace Conversion.Extract.Validation
         /// <param name="myType">Type of input object</param>
         /// <param name="userObject">Single object to be validated</param>
         /// <returns></returns>
-        public bool RunValidators(Type myType, object userObject)
+        public bool RunValidatorsForSingleObject(Type myType, object userObject)
         {
             bool isValid = true;
             var methods = myType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            _lineNumber++;
+
+
             foreach (var val in _validatorDefs)
             {
+              
+
                 var m = methods.FirstOrDefault(x =>
                     string.Equals(x.Name, val.FieldName, StringComparison.CurrentCultureIgnoreCase));
 
@@ -86,7 +97,7 @@ namespace Conversion.Extract.Validation
 
                 if (validator.IsValid(value.SafeToString(), val.FieldName)) continue;
 
-                ErrorMessages.AppendLine(validator.ValidationError);
+                ErrorMessages.AppendLine($"Line {_lineNumber} --> {validator.ValidationResults}");
                 isValid = false;
             }
 

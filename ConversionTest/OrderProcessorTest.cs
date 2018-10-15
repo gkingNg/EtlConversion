@@ -16,7 +16,7 @@ namespace ConversionTest
         [TestMethod]
         public void OrderProcessorTest_NewOrder()
         {
-            var orderProc = new OrderProcessor();
+           
 
             var product = new GenomicsProduct()
             {
@@ -48,6 +48,7 @@ namespace ConversionTest
 
             genomicsOrder.Products.Add(product);
 
+            var orderProc = new OrderProcessor();
             orderProc.AddGenomicsOrder(genomicsOrder);
 
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
-namespace Conversion.Extract.Validation.Validators
+namespace FileValidationAndMapping.Validation.Validators
 {
     public class IsRequired : IValidate
     {
@@ -16,6 +17,7 @@ namespace Conversion.Extract.Validation.Validators
         }
 
         public string ValidationError { get; set; }
+        public string ValidationResults { get; set; }
         public IList<string> CompareList { get; set; }
 
         public bool IsValid(string inputValue, string fieldName)
@@ -24,7 +26,7 @@ namespace Conversion.Extract.Validation.Validators
 
             if (result)
             {
-                ValidationError = $"{fieldName} - ({inputValue}) - {ValidationError}";
+                ValidationResults =  $"{fieldName} - ({inputValue}) - {ValidationError}";
             }
 
             return !result;

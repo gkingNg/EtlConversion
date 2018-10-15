@@ -1,4 +1,4 @@
-﻿namespace Conversion.Extract.Validation
+﻿namespace FileValidationAndMapping.Validation
 {
     public class ValidatorDef
     {

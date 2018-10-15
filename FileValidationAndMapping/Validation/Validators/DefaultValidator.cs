@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
-namespace Conversion.Extract.Validation.Validators
+namespace FileValidationAndMapping.Validation.Validators
 {
     public class DefaultValidator : IValidate
 
@@ -8,6 +9,7 @@ namespace Conversion.Extract.Validation.Validators
         public DefaultValidator()
         {
             ValidationError = "Requested validator does not exist";
+            ValidationResults = ValidationError;
         }
 
         public bool UseMe(Utils.Validators validatorName)
@@ -16,6 +18,7 @@ namespace Conversion.Extract.Validation.Validators
         }
 
         public string ValidationError { get; set; }
+        public string ValidationResults { get; set; }
         public IList<string> CompareList { get; set; }
 
         public bool IsValid(string inputValue, string fieldName)

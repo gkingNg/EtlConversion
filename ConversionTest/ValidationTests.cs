@@ -1,9 +1,9 @@
 using System;
-using FileValidationAndMapping.Extract.Validation;
-using FileValidationAndMapping.Extract.Validation.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
+using FileValidationAndMapping.Validation;
+using FileValidationAndMapping.Validation.Validators;
 
 namespace ConversionTest
 {

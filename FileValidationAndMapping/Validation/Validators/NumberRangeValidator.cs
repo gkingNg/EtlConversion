@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
-namespace Conversion.Extract.Validation.Validators
+namespace FileValidationAndMapping.Validation.Validators
 {
     public class NumberRangeValidator : IValidate
     {
@@ -19,6 +20,7 @@ namespace Conversion.Extract.Validation.Validators
         }
 
         public string ValidationError { get; set; }
+        public string ValidationResults { get; set; }
         public IList<string> CompareList { get; set; }
 
         public bool IsValid(string inputValue, string fieldName)
@@ -30,7 +32,7 @@ namespace Conversion.Extract.Validation.Validators
             var result = val >= lLimit && val <= uLimit;
             if (!result)
             {
-                ValidationError = $"{fieldName} - ({inputValue}) - {ValidationError} {lLimit} and {uLimit}";
+                ValidationResults = $"{fieldName} - ({inputValue}) - {ValidationError} {lLimit} and {uLimit}";
             }
 
             return result;

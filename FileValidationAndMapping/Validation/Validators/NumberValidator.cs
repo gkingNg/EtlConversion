@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
-namespace FileValidationAndMapping.Extract.Validation.Validators
+namespace FileValidationAndMapping.Validation.Validators
 {
     public class NumberValidator : IValidate
     {
         public NumberValidator()
         {
-
             ValidationError = "Is not a valid number";
             CompareList = new List<string>();
         }
@@ -18,6 +18,7 @@ namespace FileValidationAndMapping.Extract.Validation.Validators
         }
 
         public string ValidationError { get; set; }
+        public string ValidationResults { get; set; }
         public IList<string> CompareList { get; set; }
 
         public bool IsValid(string inputValue, string fieldName)
@@ -25,7 +26,7 @@ namespace FileValidationAndMapping.Extract.Validation.Validators
             var alphaTest = new Regex("[A-Za-z]");
             if (alphaTest.IsMatch(inputValue))
             {
-                ValidationError = $"{fieldName} - ({inputValue}) - {ValidationError}";
+                ValidationResults = $"{fieldName} - ({inputValue}) - {ValidationError}";
                 return false;
             }
 
@@ -35,7 +36,7 @@ namespace FileValidationAndMapping.Extract.Validation.Validators
 
             if (!result)
             {
-                ValidationError = $"{fieldName} - ({inputValue}) - {ValidationError}";
+                ValidationResults =  $"{fieldName} - ({inputValue}) - {ValidationError}";
             }
 
             return result;

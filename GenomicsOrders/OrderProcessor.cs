@@ -17,14 +17,6 @@ namespace GenomicsOrders
         private readonly AllRepositories _allRepositories;
         private int _labId;
 
-        //private GenomicsRepository _repository;
-        //private GenomicsModel _uow;
-
-
-        //private OrderStatusRepository _orderStatusRepo;
-        //private OrderStatusCodesRepository _orderStatusCodesRepo;
-
-
         private readonly Dictionary<string, int> _orderStatusCodesList;
         private IList<IGEN_ORDERSTATUS> _orderStatusRepositoryOld;
 
@@ -51,7 +43,7 @@ namespace GenomicsOrders
 
             ValidationObjects(order, genomicsCustomer, genomicsUser, genomicsLab);
 
-            var partialSamples = MakeGenomicsSamples(order, genomicsCustomer);
+            var samples = MakeGenomicsSamples(order, genomicsCustomer);
 
             var igenityOrder = new IGEN_IGENITYORDER
             {
@@ -76,7 +68,7 @@ namespace GenomicsOrders
 
             AddOrderStatus(igenityOrder, "Order Received", order.OrderDate.Value);
 
-            foreach (var sample in partialSamples)
+            foreach (var sample in samples)
             {
                 igenityOrder.IGEN_SAMPLE.Add(sample);
             }
@@ -155,7 +147,7 @@ namespace GenomicsOrders
                 animal.BREEDASSOCIATIONID = genSample.BreedingAssociationCodeId;
                 animal.IGEN_CUSTOMER = genomicsCustomer;
 
-                //gak seems to be only used on Customer
+                //gak For Trinia seems to be only used on Customer
                 //var custBreedAssoc = customerBreedAssocs.FirstOrDefault(f =>
                 //    f.BREEDASSOCIATIONCODE == genSample.BreedingAssociationCode);
                 //if (custBreedAssoc != null)

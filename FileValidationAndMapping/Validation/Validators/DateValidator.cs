@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace Conversion.Extract.Validation.Validators
+namespace FileValidationAndMapping.Validation.Validators
 {
     public class DateValidator : IValidate
     {
@@ -18,6 +19,7 @@ namespace Conversion.Extract.Validation.Validators
         }
 
         public string ValidationError { get; set; }
+        public string ValidationResults { get; set; }
         public IList<string> CompareList { get; set; }
 
         public bool IsValid(string inputValue, string fieldName)
@@ -26,7 +28,7 @@ namespace Conversion.Extract.Validation.Validators
             var temp =  DateTime.TryParse(inputValue, out result);
             if (!temp)
             {
-                ValidationError = $"{fieldName} - ({inputValue}) - {ValidationError}";
+                ValidationResults =  $"{fieldName} - ({inputValue}) - {ValidationError}";
             }
 
             return temp;

@@ -10,4 +10,5 @@
     class MapDefinitionImpl : MapDefinition
     {
     }
+	
 }

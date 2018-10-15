@@ -45,15 +45,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extract\FileReader.cs" />
-    <Compile Include="Extract\Validation\ValidationProcessor.cs" />
-    <Compile Include="Extract\Validation\ValidatorDef.cs" />
-    <Compile Include="Extract\Validation\Validators\DateValidator.cs" />
-    <Compile Include="Extract\Validation\Validators\DefaultValidator.cs" />
-    <Compile Include="Extract\Validation\Validators\GenderValidator.cs" />
-    <Compile Include="Extract\Validation\Validators\IsRequired.cs" />
-    <Compile Include="Extract\Validation\Validators\IValidate.cs" />
-    <Compile Include="Extract\Validation\Validators\NumberRangeValidator.cs" />
-    <Compile Include="Extract\Validation\Validators\NumberValidator.cs" />
+    <Compile Include="Validation\ValidationProcessor.cs" />
+    <Compile Include="Validation\ValidatorDef.cs" />
+    <Compile Include="Validation\Validators\DateValidator.cs" />
+    <Compile Include="Validation\Validators\DefaultValidator.cs" />
+    <Compile Include="Validation\Validators\GenderValidator.cs" />
+    <Compile Include="Validation\Validators\IsRequired.cs" />
+    <Compile Include="Validation\Validators\IValidate.cs" />
+    <Compile Include="Validation\Validators\NumberRangeValidator.cs" />
+    <Compile Include="Validation\Validators\NumberValidator.cs" />
     <Compile Include="Models\DairyFileTemplate.cs" />
     <Compile Include="Models\OutPutRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

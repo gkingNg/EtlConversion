@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using FileValidationAndMapping.Extract;
-using FileValidationAndMapping.Extract.Validation;
 using FileValidationAndMapping.Models;
 using FileValidationAndMapping.Transform;
+using FileValidationAndMapping.Validation;
 
 
 namespace Conversion
@@ -23,19 +23,22 @@ namespace Conversion
 
             //var userRecords = fileReader.ReadFile(filePath, 1, fieldNames, separator);
             var stream = File.OpenText(filePath);
-            var userRecords = fileReader.ReadStream(stream, 1, fieldNames, separator);
+            var ignoreLines = 1;
+            var userRecords = fileReader.ReadStream(stream, ignoreLines, fieldNames, separator);
 
+
+            //These will come from database
             var validatorDefs = new List<ValidatorDef>
             {
                 new ValidatorDef("BarcodeId", "IsRequired"),
                 new ValidatorDef("AnimalID", "IsRequired"),
                 new ValidatorDef("DamRegistrationNumber", "number"),
-                new ValidatorDef("SexofAnimal", "Gender","","M,F,Male,Female,sire,dam,heifer,steer"),
+                new ValidatorDef("SexofAnimal", "Gender","","m,F,Male,Female,sire,dam,heifer,steer"),
             };
 
             var validationProcessor = new ValidationProcessor(validatorDefs);
 
-            if (! validationProcessor.RunValidatorsForAll(fileReader.InputType, userRecords))
+            if (! validationProcessor.RunValidatorsForAllObjects(fileReader.InputType, userRecords))
             {
                 Console.WriteLine(validationProcessor.ErrorMessages.ToString());
                 EndProgram();
@@ -44,6 +47,8 @@ namespace Conversion
 
             var fileMapper = new FileMapper();
 
+
+            //These will come from database
             IList<MapDefinition> mapDefs = new List<MapDefinition>();
 
             mapDefs.Add(new MapDefinition() { InputName = "BarcodeId", OutputName = "BarcodeId" });
